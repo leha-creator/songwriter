@@ -32,22 +32,23 @@ class SongController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreSongRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreSongRequest $request)
     {
-
+        $data = $request->validated();
+        return response()->json($data)->setStatusCode(201);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Song  $song
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Song $song)
     {
-        //
+        return response()->json($song)->setStatusCode(200);
     }
 
     /**
