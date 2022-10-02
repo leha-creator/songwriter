@@ -24,7 +24,22 @@ class StoreSongRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|max:255',
+            'songContent' => 'required|json',
+        ];
+    }
+
+    /**
+     * Get validation messages for specific validation rules
+     * @return array
+     */
+
+    public function messages()
+    {
+        return [
+            'title.required' => 'Отсутствует название',
+            'title.max' => 'Максимальная длина названия 256 символов',
+            'songContent.required' => 'Отсутствует содержимое',
         ];
     }
 }
