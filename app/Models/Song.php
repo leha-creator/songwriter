@@ -9,6 +9,11 @@ class Song extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        "title",
+        "songcontent"
+    ];
+
     protected $casts= [
         'songcontent' => 'array',
     ];

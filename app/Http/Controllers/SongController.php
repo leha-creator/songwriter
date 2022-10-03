@@ -5,23 +5,29 @@ namespace App\Http\Controllers;
 use App\Models\Song;
 use App\Http\Requests\StoreSongRequest;
 use App\Http\Requests\UpdateSongRequest;
+use GuzzleHttp\Psr7\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Psy\Util\Json;
+use Spatie\LaravelIgnition\Commands\SolutionProviderMakeCommand;
 
 class SongController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index()
     {
-        //
+        $songs = Song::all();
+        return response()->json($songs)->setStatusCode(200);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -31,31 +37,35 @@ class SongController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreSongRequest  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param StoreSongRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreSongRequest $request)
+    public function store(StoreSongRequest $request): JsonResponse
     {
+
         $data = $request->validated();
-        return response()->json($data)->setStatusCode(201);
+        $data["songcontent"] = json_decode($data["songcontent"]);
+        $song = Song::create($data);
+        return response()->json($song)->setStatusCode(200);
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Song  $song
-     * @return \Illuminate\Http\JsonResponse
+     * @param Song $song
+     * @return JsonResponse
      */
-    public function show(Song $song)
+    public function show(Song $song): JsonResponse
     {
-        return response()->json($song)->setStatusCode(200);
+        return response()->json($song)->setStatusCode(201);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Song  $song
-     * @return \Illuminate\Http\Response
+     * @param Song $song
+     * @return Response
      */
     public function edit(Song $song)
     {
@@ -65,23 +75,33 @@ class SongController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateSongRequest  $request
-     * @param  \App\Models\Song  $song
-     * @return \Illuminate\Http\Response
+     * @param UpdateSongRequest $request
+     * @param Song $song
+     * @return JsonResponse
      */
     public function update(UpdateSongRequest $request, Song $song)
     {
-        //
+        $data = $request->validated();
+        $data["songcontent"] = json_decode($data["songcontent"]);
+        $song->update($data);
+        return response()->json($song)->setStatusCode(200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Song  $song
-     * @return \Illuminate\Http\Response
+     * @param Song $song
+     * @return JsonResponse
      */
-    public function destroy(Song $song)
+    public function destroy(Song $song): JsonResponse
     {
-        //
+        $song->delete();
+        $data = [
+            'data' => [
+                'id' => $song->id,
+            ]
+        ];
+
+        return response()->json($data)->setStatusCode(200);
     }
 }

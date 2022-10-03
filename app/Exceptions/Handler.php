@@ -47,4 +47,16 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+
+    /**
+     * @param $request
+     * @param Throwable $e
+     * @return void
+     * @throws APIException
+     */
+    public function render($request, Throwable $e): void
+    {
+        throw new APIException(404, "Resource not found");
+    }
 }

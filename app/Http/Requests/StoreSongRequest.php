@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreSongRequest extends FormRequest
+class StoreSongRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class StoreSongRequest extends FormRequest
     {
         return [
             'title' => 'required|max:255',
-            'songContent' => 'required|json',
+            'songcontent' => 'required|json',
         ];
     }
 
@@ -39,7 +39,7 @@ class StoreSongRequest extends FormRequest
         return [
             'title.required' => 'Отсутствует название',
             'title.max' => 'Максимальная длина названия 256 символов',
-            'songContent.required' => 'Отсутствует содержимое',
+            'songcontent.required' => 'Отсутствует содержимое',
         ];
     }
 }

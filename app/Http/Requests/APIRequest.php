@@ -29,7 +29,7 @@ class APIRequest extends FormRequest
      */
     public function failedValidation(Validator $validator): void
     {
-        throw new APIException(422, "Validation error");
+        throw new APIException(422, "Validation error", $validator->errors());
 
     }
 }
