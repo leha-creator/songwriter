@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SongListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SongController;
@@ -15,4 +16,5 @@ use App\Http\Controllers\SongController;
 */
 
 Route::apiResource('songs', SongController::class);
+Route::apiResource('songlists', SongListController::class);
 
