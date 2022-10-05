@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SongListCollection;
+use App\Http\Resources\SongListWithSongsResource;
 use App\Models\SongList;
 use App\Http\Requests\StoreSongListRequest;
 use App\Http\Requests\UpdateSongListRequest;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -63,11 +66,12 @@ class SongListController extends Controller
      * Display the specified resource.
      *
      * @param SongList $songList
-     * @return Response
+     * @return JsonResponse
      */
-    public function show(SongList $songList)
+    public function show(SongList $songlist)
     {
-        //
+        $songlist["songs"] = $songlist->songs;
+        return response()->json($songlist)->setStatusCode(200);
     }
 
     /**
@@ -97,10 +101,15 @@ class SongListController extends Controller
      * Remove the specified resource from storage.
      *
      * @param SongList $songList
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy(SongList $songList)
+    public function destroy(SongList $songList): JsonResponse
     {
-        //
+//
+//        foreach ($songList->songs()as $song) {
+//            echo $song->pivot->id;
+//        }
+        dd($songList);
+        return response()->json($songList->songs)->setStatusCode(200);
     }
 }

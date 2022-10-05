@@ -10,6 +10,8 @@ class SongList extends Model
 {
     use HasFactory;
 
+    protected $table = 'song_lists';
+
     protected $fillable = [
         'name',
         'planned_date'
@@ -18,7 +20,7 @@ class SongList extends Model
     /**
      * @return BelongsToMany
      */
-    public function songs(): BelongsToMany
+    public function songs()
     {
         return $this->belongsToMany(Song::class, 'song_song_list', 'song_list_id', 'song_id');
     }
