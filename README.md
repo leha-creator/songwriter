@@ -6,3 +6,4 @@ An application that provides an API for a client. Allows you to create, modify a
 
 - [ ] JWT token authorization
 - [ ] Separation for different owners
+- [ ] API documentation
