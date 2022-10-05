@@ -22,7 +22,8 @@ class SongList extends Model
      */
     public function songs()
     {
-        return $this->belongsToMany(Song::class, 'song_song_list', 'song_list_id', 'song_id');
+        return $this->belongsToMany(Song::class, 'song_song_list', 'song_list_id', 'song_id')
+            ->withPivot('song_number');
     }
 
     public static function boot()
