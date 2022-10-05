@@ -98,12 +98,7 @@ class SongController extends Controller
     public function destroy(Song $song): JsonResponse
     {
         $song->delete();
-        $data = [
-            'data' => [
-                'id' => $song->id,
-            ]
-        ];
 
-        return response()->json($data)->setStatusCode(200);
+        return response()->json()->setStatusCode(200);
     }
 }

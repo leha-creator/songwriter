@@ -24,4 +24,13 @@ class SongList extends Model
     {
         return $this->belongsToMany(Song::class, 'song_song_list', 'song_list_id', 'song_id');
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($songlist) {
+            $songlist->songs()->detach();
+        });
+    }
 }

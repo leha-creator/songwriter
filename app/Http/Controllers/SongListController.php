@@ -103,13 +103,9 @@ class SongListController extends Controller
      * @param SongList $songList
      * @return JsonResponse
      */
-    public function destroy(SongList $songList): JsonResponse
+    public function destroy(SongList $songlist): JsonResponse
     {
-//
-//        foreach ($songList->songs()as $song) {
-//            echo $song->pivot->id;
-//        }
-        dd($songList);
-        return response()->json($songList->songs)->setStatusCode(200);
+        $songlist->delete();
+        return response()->json()->setStatusCode(200);
     }
 }
