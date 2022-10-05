@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateSongListRequest extends FormRequest
+class UpdateSongListRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdateSongListRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class UpdateSongListRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'max:255',
+            'planned_date' => 'date_format:Y-m-d',
+            'attached_songs.*.id' => 'required|exists:songs,id',
+            'attached_songs.*.song_number' => 'integer',
+            'detached_songs' => 'array',
         ];
     }
 }

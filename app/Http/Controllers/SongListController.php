@@ -89,12 +89,38 @@ class SongListController extends Controller
      * Update the specified resource in storage.
      *
      * @param UpdateSongListRequest $request
-     * @param SongList $songList
-     * @return Response
+     * @param SongList $songlist
+     * @return JsonResponse
      */
-    public function update(UpdateSongListRequest $request, SongList $songList)
+    public function update(UpdateSongListRequest $request, SongList $songlist): JsonResponse
     {
-        //
+        $data = $request->validated();
+        if (!empty($data["name"])) {
+            $songlist->update([
+                "name" => $data["name"]
+            ]);
+            $songlist->save();
+        }
+
+        if (!empty($data["attached_songs"])) {
+            $attachSongs = [];
+
+            for ($songIndex = 0; $songIndex < count($data["attached_songs"]); $songIndex++) {
+                $attachSongs[$data["attached_songs"][$songIndex]['id']] = ['song_number' => $data["attached_songs"][$songIndex]['song_number']];
+            }
+
+            $songlist->songs()->attach($attachSongs);
+        }
+
+
+
+        if (!empty($data["detached_songs"])) {
+            $detachedSongs = $data["detached_songs"];
+            $songlist->songs()->detach($detachedSongs);
+        }
+
+        $songlist["songs"] = $songlist->songs;
+        return response()->json($songlist)->setStatusCode(200);
     }
 
     /**

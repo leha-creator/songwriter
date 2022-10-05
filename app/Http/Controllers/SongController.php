@@ -58,8 +58,6 @@ class SongController extends Controller
      */
     public function show(Song $song): JsonResponse
     {
-
-        dd($song);
         return response()->json($song)->setStatusCode(201);
     }
 
