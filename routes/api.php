@@ -15,6 +15,13 @@ use App\Http\Controllers\SongController;
 |
 */
 
-Route::apiResource('songs', SongController::class);
-Route::apiResource('songlists', SongListController::class);
+Route::post('/login', [\App\Http\Controllers\UserController::class, 'getToken']);
+
+Route::prefix('songs')->group(function () {
+    Route::controller(SongController::class)->group(function () {
+        Route::get('/{song}', 'show')->middleware(['auth:sanctum', 'ability:song-edit']);
+    });
+});
+
+Route::apiResource('/songlists', SongListController::class);
 

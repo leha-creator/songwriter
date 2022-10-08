@@ -3,10 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Laravel\Sanctum\HasApiTokens;
 
-class User extends Model
+class User extends Authenticatable
 {
+    use HasApiTokens, HasFactory, Notifiable;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'name',
         'email',
@@ -19,8 +30,8 @@ class User extends Model
      * @var array<int, string>
      */
     protected $hidden = [
+        'access_token',
         'password',
-        'remember_token',
     ];
 
     /**
@@ -31,4 +42,11 @@ class User extends Model
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+//    public function generateToken() : string {
+//        $this->access_token = Hash::make();
+//        $this->save();
+//
+//        return $this->accessToken;
+//    }
 }

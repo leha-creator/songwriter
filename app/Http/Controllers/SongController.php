@@ -46,7 +46,7 @@ class SongController extends Controller
         $data = $request->validated();
         $data["songcontent"] = json_decode($data["songcontent"]);
         $song = Song::create($data);
-        return response()->json($song)->setStatusCode(200);
+        return response()->json($song)->setStatusCode(201);
 
     }
 
@@ -58,7 +58,7 @@ class SongController extends Controller
      */
     public function show(Song $song): JsonResponse
     {
-        return response()->json($song)->setStatusCode(201);
+        return response()->json($song)->setStatusCode(200);
     }
 
     /**
