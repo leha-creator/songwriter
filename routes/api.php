@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\SongListController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SongController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,13 +17,27 @@ use App\Http\Controllers\SongController;
 |
 */
 
-Route::post('/login', [\App\Http\Controllers\UserController::class, 'getToken']);
+Route::post('login', [UserController::class, 'getToken']);
 
-Route::prefix('songs')->group(function () {
-    Route::controller(SongController::class)->group(function () {
-        Route::get('/{song}', 'show')->middleware(['auth:sanctum', 'ability:song-edit']);
-    });
+Route::middleware(['auth:sanctum', 'ability:song-edit'])->group(function () {
+    Route::resource('songs', SongController::class)->only([
+        'store', 'update', 'destroy'
+    ]);
+
+    Route::resource('songlists', SongListController::class)->only([
+        'store', 'update', 'destroy'
+    ]);
 });
+
+Route::resource('songs', SongController::class)->only([
+    'index', 'show'
+]);
+
+Route::resource('songlists', SongListController::class)->only([
+    'index', 'show'
+]);
+
+
 
 Route::apiResource('/songlists', SongListController::class);
 
